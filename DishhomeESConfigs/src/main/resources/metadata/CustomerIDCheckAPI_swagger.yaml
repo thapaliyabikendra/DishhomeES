@@ -1,0 +1,21 @@
+openapi: 3.0.1
+info:
+  title: CustomerAPI
+  description: API Definition of CustomerIDCheckAPI
+  version: 1.0.0
+servers:
+- url: /customer
+paths:
+  /{customerId}:
+    get:
+      parameters:
+      - name: customerId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        default:
+          description: Default response

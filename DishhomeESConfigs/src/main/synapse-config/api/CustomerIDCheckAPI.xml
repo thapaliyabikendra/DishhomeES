@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/customer" name="CustomerAPI" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="GET" uri-template="/{customerId}">
+        <inSequence>
+            <!-- Log the incoming request -->
+            <log level="full"/>
+            <!-- Extract the Authorization Header -->
+            <property expression="get-property('transport', 'Authorization')" name="Authorization" scope="default" type="STRING"/>
+            <!-- Extract the base64 encoded credentials -->
+            <property expression="fn:substring-after(get-property('Authorization'), 'Basic ')" name="authHeader" scope="default" type="STRING"/>
+            <!-- Decode the base64 encoded credentials -->
+            <property expression="base64Decode(get-property('authHeader'))" name="authDecoded" scope="default" type="STRING"/>
+            <!-- Extract username and password -->
+            <property expression="fn:substring-before(get-property('authDecoded'), ':')" name="username" scope="default" type="STRING"/>
+            <property expression="fn:substring-after(get-property('authDecoded'), ':')" name="password" scope="default" type="STRING"/>
+            <!-- Extract customerId from the URL path -->
+            <property expression="get-property('uri.var.customerId')" name="customerId" scope="default" type="STRING"/>
+            <!-- Create SOAP request -->
+            <payloadFactory media-type="xml">
+                <format>
+                    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">
+                        <soapenv:Header/>
+                        <soapenv:Body>
+                            <tem:CustomerIDCheck>
+                                <tem:Username>$1</tem:Username>
+                                <tem:Password>$2</tem:Password>
+                                <tem:CustomerID>$3</tem:CustomerID>
+                            </tem:CustomerIDCheck>
+                        </soapenv:Body>
+                    </soapenv:Envelope>
+                </format>
+                <args>
+                    <arg evaluator="xml" expression="get-property('username')"/>
+                    <arg evaluator="xml" expression="get-property('password')"/>
+                    <arg evaluator="xml" expression="get-property('customerId')"/>
+                </args>
+            </payloadFactory>
+            <log level="full"/>
+            <header name="SOAPAction" scope="transport" value="http://tempuri.org/CustomerIDCheck"/>
+            <!-- Call the backend SOAP service -->
+            <call>
+                <endpoint>
+                    <address format="soap11" uri="http://demo-api.dishhome.com.np/DishMediaService.asmx">
+                        <suspendOnFailure>
+                            <initialDuration>-1</initialDuration>
+                            <progressionFactor>1</progressionFactor>
+                        </suspendOnFailure>
+                        <markForSuspension>
+                            <retriesBeforeSuspension>0</retriesBeforeSuspension>
+                        </markForSuspension>
+                    </address>
+                </endpoint>
+            </call>
+            <log level="full"/>
+            <!-- Transform SOAP to JSON -->
+            <payloadFactory media-type="json">
+                <format>
+                    {
+                        "responseCode": "$1",
+                        "token": "$2",
+                        "rtn1": "$3",
+                        "rtn2": "$4",
+                        "rtn3": "$5",
+                        "customerName": "$6",
+                        "language": "$7",
+                        "package": "$8",
+                        "balance": "$9",
+                        "expiryDate": "$10",
+                        "region": "$11",
+                        "zone": "$12",
+                        "district": "$13",
+                        "customerType": "$14",
+                        "customerStatus": "$15",
+                        "customerId": "$16",
+                        "isRtn": "$17",
+                        "isDealer": "$18",
+                        "quantity": "$19",
+                        "ispCustomerId": "$20",
+                        "fourkMac": "$21",
+                        "isCustomer": "$22"
+                    }
+                </format>
+                <args>
+                    <arg evaluator="xml" expression="//ns:CustomerIDCheckResult/ns:ResponseCode/text()" xmlns:ns="http://tempuri.org/"/>
+                    <arg evaluator="xml" expression="//ns:CustomerIDCheckResult/ns:Token/text()" xmlns:ns="http://tempuri.org/"/>
+                    <arg evaluator="xml" expression="//ns:CustomerIDCheckResult/ns:RTN1/text()" xmlns:ns="http://tempuri.org/"/>
+                    <arg evaluator="xml" expression="//ns:CustomerIDCheckResult/ns:RTN2/text()" xmlns:ns="http://tempuri.org/"/>
+                    <arg evaluator="xml" expression="//ns:CustomerIDCheckResult/ns:RTN3/text()" xmlns:ns="http://tempuri.org/"/>
+                    <arg evaluator="xml" expression="//ns:CustomerIDCheckResult/ns:CustomerName/text()" xmlns:ns="http://tempuri.org/"/>
+                    <arg evaluator="xml" expression="//ns:CustomerIDCheckResult/ns:Language/text()" xmlns:ns="http://tempuri.org/"/>
+                    <arg evaluator="xml" expression="//ns:CustomerIDCheckResult/ns:Package/text()" xmlns:ns="http://tempuri.org/"/>
+                    <arg evaluator="xml" expression="//ns:CustomerIDCheckResult/ns:Balance/text()" xmlns:ns="http://tempuri.org/"/>
+                    <arg evaluator="xml" expression="//ns:CustomerIDCheckResult/ns:ExpiryDate/text()" xmlns:ns="http://tempuri.org/"/>
+                    <arg evaluator="xml" expression="//ns:CustomerIDCheckResult/ns:Region/text()" xmlns:ns="http://tempuri.org/"/>
+                    <arg evaluator="xml" expression="//ns:CustomerIDCheckResult/ns:Zone/text()" xmlns:ns="http://tempuri.org/"/>
+                    <arg evaluator="xml" expression="//ns:CustomerIDCheckResult/ns:District/text()" xmlns:ns="http://tempuri.org/"/>
+                    <arg evaluator="xml" expression="//ns:CustomerIDCheckResult/ns:CustomerType/text()" xmlns:ns="http://tempuri.org/"/>
+                    <arg evaluator="xml" expression="//ns:CustomerIDCheckResult/ns:CustomerStatus/text()" xmlns:ns="http://tempuri.org/"/>
+                    <arg evaluator="xml" expression="//ns:CustomerIDCheckResult/ns:CustomerId/text()" xmlns:ns="http://tempuri.org/"/>
+                    <arg evaluator="xml" expression="//ns:CustomerIDCheckResult/ns:IsRTN/text()" xmlns:ns="http://tempuri.org/"/>
+                    <arg evaluator="xml" expression="//ns:CustomerIDCheckResult/ns:IsDealer/text()" xmlns:ns="http://tempuri.org/"/>
+                    <arg evaluator="xml" expression="//ns:CustomerIDCheckResult/ns:Quantity/text()" xmlns:ns="http://tempuri.org/"/>
+                    <arg evaluator="xml" expression="//ns:CustomerIDCheckResult/ns:IspCustomerID/text()" xmlns:ns="http://tempuri.org/"/>
+                    <arg evaluator="xml" expression="//ns:CustomerIDCheckResult/ns:FourkMac/text()" xmlns:ns="http://tempuri.org/"/>
+                    <arg evaluator="xml" expression="//ns:CustomerIDCheckResult/ns:IsCustomer/text()" xmlns:ns="http://tempuri.org/"/>
+                </args>
+            </payloadFactory>
+            <!-- Send the response back to the client -->
+            <respond/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+</api>
