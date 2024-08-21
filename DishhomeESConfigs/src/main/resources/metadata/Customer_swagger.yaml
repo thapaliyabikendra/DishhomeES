@@ -1,10 +1,10 @@
 openapi: 3.0.1
 info:
   title: CustomerAPI
-  description: API Definition of CustomerIDCheckAPI
+  description: API Definition of Customer
   version: 1.0.0
 servers:
-- url: /customer
+- url: http://localhost:8290/customer
 paths:
   /{customerId}:
     get:

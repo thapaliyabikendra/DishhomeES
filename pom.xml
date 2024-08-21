@@ -3,14 +3,14 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>amniltech.dishhomees</groupId>
-  <artifactId>DishhomeES</artifactId>
+  <artifactId>DishHomeEs</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>DishhomeES</name>
-  <description>DishhomeES</description>
+  <name>DishHomeEs</name>
+  <description>DishHomeEs</description>
   <modules>
-    <module>DishhomeESConfigs</module>
-    <module>DishhomeESCompositeExporter</module>
+    <module>DishHomeEsConfigs</module>
+    <module>DishHomeEsCompositeExporter</module>
   </modules>
   <scm>
     <connection>scm:git:https://github.com/username/repository.git</connection>

@@ -4,21 +4,21 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>amniltech.dishhomees</groupId>
-    <artifactId>DishhomeESConfigs_module</artifactId>
+    <artifactId>DishHomeEsConfigs_module</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
-  <groupId>amniltech.dishhomees.api</groupId>
-  <artifactId>CustomerIDCheckAPI</artifactId>
+  <groupId>amniltech.dishhomees.metadata</groupId>
+  <artifactId>Customer_metadata</artifactId>
   <version>1.0.0</version>
-  <packaging>synapse/api</packaging>
-  <name>CustomerIDCheckAPI</name>
-  <description>CustomerIDCheckAPI</description>
+  <packaging>synapse/metadata</packaging>
+  <name>Customer_metadata</name>
+  <description>Customer_metadata</description>
   <build>
     <plugins>
       <plugin>
         <groupId>org.wso2.maven</groupId>
-        <artifactId>wso2-mi-synapse-plugin</artifactId>
+        <artifactId>wso2-esb-metadata-plugin</artifactId>
         <version>5.2.44</version>
         <extensions>true</extensions>
         <dependencies>
@@ -29,7 +29,7 @@
           </dependency>
         </dependencies>
         <configuration>
-          <artifact>../../../src/main/synapse-config/api/CustomerIDCheckAPI.xml</artifact>
+          <artifact>../../../src/main/resources/metadata/Customer_metadata.yaml</artifact>
         </configuration>
       </plugin>
     </plugins>

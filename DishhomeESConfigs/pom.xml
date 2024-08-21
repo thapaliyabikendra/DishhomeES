@@ -4,15 +4,15 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>amniltech.dishhomees</groupId>
-    <artifactId>DishhomeES</artifactId>
+    <artifactId>DishHomeEs</artifactId>
     <version>1.0.0-SNAPSHOT</version>
   </parent>
   <groupId>amniltech.dishhomees</groupId>
-  <artifactId>DishhomeESConfigs</artifactId>
+  <artifactId>DishHomeEsConfigs</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>DishhomeESConfigs</name>
-  <description>DishhomeESConfigs</description>
+  <name>DishHomeEsConfigs</name>
+  <description>DishHomeEsConfigs</description>
   <modules>
     <module>build-artifacts</module>
   </modules>

@@ -4,16 +4,16 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>amniltech.dishhomees</groupId>
-    <artifactId>DishhomeESConfigs_module</artifactId>
+    <artifactId>DishHomeEsConfigs_module</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
   <groupId>amniltech.dishhomees.metadata</groupId>
-  <artifactId>CustomerIDCheckAPI_swagger</artifactId>
+  <artifactId>Customer_swagger</artifactId>
   <version>1.0.0</version>
   <packaging>synapse/metadata</packaging>
-  <name>CustomerIDCheckAPI_swagger</name>
-  <description>CustomerIDCheckAPI_swagger</description>
+  <name>Customer_swagger</name>
+  <description>Customer_swagger</description>
   <build>
     <plugins>
       <plugin>
@@ -29,7 +29,7 @@
           </dependency>
         </dependencies>
         <configuration>
-          <artifact>../../../src/main/resources/metadata/CustomerIDCheckAPI_swagger.yaml</artifact>
+          <artifact>../../../src/main/resources/metadata/Customer_swagger.yaml</artifact>
         </configuration>
       </plugin>
     </plugins>

@@ -3,7 +3,9 @@
     <resource methods="GET" uri-template="/{customerId}">
         <inSequence>
             <!-- Log the incoming request -->
-            <log level="full"/>
+            <log level="full">
+                <property name="message" value="Incoming request received."/>
+            </log>
             <!-- Extract the Authorization Header -->
             <property expression="get-property('transport', 'Authorization')" name="Authorization" scope="default" type="STRING"/>
             <!-- Extract the base64 encoded credentials -->
@@ -35,12 +37,19 @@
                     <arg evaluator="xml" expression="get-property('customerId')"/>
                 </args>
             </payloadFactory>
-            <log level="full"/>
+            <log description="Log2" level="full">
+                <property name="message" value="SOAP request created successfully."/>
+            </log>
+            <header name="Accept-Encoding" scope="transport" value="gzip,deflate"/>
+            <header name="Content-Type" scope="transport" value="text/xml;charset=UTF-8"/>
+            <header name="Host" scope="transport" value="demo-api-dishhome.server247.info"/>
+            <header name="Connection" scope="transport" value="Keep-Alive"/>
+            <header name="User-Agent" scope="transport" value="Apache-HttpClient/4.5.5 (Java/16.0.2)"/>
             <header name="SOAPAction" scope="transport" value="http://tempuri.org/CustomerIDCheck"/>
             <!-- Call the backend SOAP service -->
             <call>
                 <endpoint>
-                    <address format="soap11" uri="http://demo-api.dishhome.com.np/DishMediaService.asmx">
+                    <address format="soap11" uri="http://demo-api-dishhome.server247.info/DishMediaService.asmx">
                         <suspendOnFailure>
                             <initialDuration>-1</initialDuration>
                             <progressionFactor>1</progressionFactor>
@@ -51,10 +60,12 @@
                     </address>
                 </endpoint>
             </call>
-            <log level="full"/>
+            <log description="Log2" level="full">
+                <property name="message" value="Sended SOAP request."/>
+            </log>
             <!-- Transform SOAP to JSON -->
             <enrich description="Take particular child element from response and enrich message context">
-                <source clone="true" xpath="//*[local-name() = 'LookupCityResult']"/>
+                <source clone="true" xpath="//*[local-name() = 'CustomerIDCheckResponse']"/>
                 <target type="body"/>
             </enrich>
             <property description="Convert XML payload to JSON" name="messageType" scope="axis2" type="STRING" value="application/json"/>
@@ -62,6 +73,13 @@
             <!-- Send the response back to the client -->
         </inSequence>
         <outSequence/>
-        <faultSequence/>
+        <faultSequence>
+            <log level="full">
+                <property name="message" value="An error occurred while processing the request."/>
+                <property expression="get-property('ERROR_CODE')" name="ERROR_CODE"/>
+                <property expression="get-property('ERROR_MESSAGE')" name="ERROR_MESSAGE"/>
+            </log>
+            <send/>
+        </faultSequence>
     </resource>
 </api>
